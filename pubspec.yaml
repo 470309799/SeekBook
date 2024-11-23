@@ -22,7 +22,7 @@ dependencies:
   html: any
   dio: 1.0.6
   sqflite: any
-  battery: 0.2.3
+  battery: ^2.0.0
   shared_preferences: ^2.0.0
   cached_network_image: ^0.5.0
   flutter_cache_manager: ^0.2.0
