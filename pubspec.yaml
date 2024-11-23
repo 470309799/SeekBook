@@ -27,7 +27,7 @@ dependencies:
   cached_network_image: ^0.5.0
   flutter_cache_manager: ^3.0.0
   url_launcher: ^6.0.0
-  gbk2utf8: ^0.0.1
+  gbk2utf8: ^latest_version_with_null_safety
 
 dev_dependencies:
 #  flutter_test:
