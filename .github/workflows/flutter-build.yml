@@ -20,7 +20,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '8'  # 使用 Java 8
-        distribution: 'adoptium'  # 使用 Adoptium (Eclipse 的 AdoptOpenJDK 项目)
+        distribution: 'openjdk'  # 使用 OpenJDK
 
     - name: Set up Flutter 1.22.x
       uses: subosito/flutter-action@v2
