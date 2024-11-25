@@ -22,10 +22,10 @@ jobs:
         java-version: '8'  # 使用 Java 8
         distribution: 'zulu'  # 或者选择 'adoptium' 或 'openjdk'
 
-    - name: Set up Flutter 1.22.x
+    - name: Set up Flutter 2.0
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '1.22.6'  # 使用 Flutter 1.22.6
+        flutter-version: '2.0'  # 使用 Flutter 1.22.6
 
     - name: Install dependencies
       run: flutter pub get  # 安装 Flutter 项目的依赖
