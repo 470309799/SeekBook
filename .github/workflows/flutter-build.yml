@@ -20,11 +20,12 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '8'  # 使用 Java 8
+        distribution: 'adoptopenjdk'  # 使用 AdoptOpenJDK（或 openjdk）
 
     - name: Set up Flutter 1.22.x
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '1.22.6'  # 使用 Flutter 1.22.6，这个版本发布于2018年，并兼容当时的 Android 嵌入 v1
+        flutter-version: '1.22.6'  # 使用 Flutter 1.22.6
 
     - name: Install dependencies
       run: flutter pub get  # 安装 Flutter 项目的依赖
