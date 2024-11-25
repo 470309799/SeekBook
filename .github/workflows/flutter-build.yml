@@ -33,7 +33,7 @@ jobs:
       run: flutter build apk --release  # 生成 release 版本的 APK
 
     - name: Upload APK artifact
-      uses: actions/upload-artifact@v2
+      uses: @github/actions/upload-artifact@v3  # 使用新的上传工件版本
       with:
         name: flutter-apk
         path: build/app/outputs/flutter-apk/app-release.apk  # 上传生成的 APK 文件
