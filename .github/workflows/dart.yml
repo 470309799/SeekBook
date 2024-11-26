@@ -23,10 +23,14 @@ jobs:
           java-version: '8'
           distribution: 'zulu'
 
-      # 配置 JAVA_HOME 环境变量
-      - name: Set JAVA_HOME to Java 8
+      # 动态获取 Java 8 的路径
+      - name: Find Java 8 Path
         run: |
-          echo "JAVA_HOME=/usr/lib/jvm/zulu-8-amd64" >> $GITHUB_ENV
+          JAVA_PATH=$(update-alternatives --list java | grep java-8 | head -n 1)
+          if [ -z "$JAVA_PATH" ]; then
+            echo "Java 8 not found!" && exit 1
+          fi
+          echo "JAVA_HOME=$(dirname $(dirname $JAVA_PATH))" >> $GITHUB_ENV
           echo "PATH=$JAVA_HOME/bin:$PATH" >> $GITHUB_ENV
 
       # 使用较旧的 Flutter 版本以支持 Android V1 嵌入
@@ -34,6 +38,10 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '2.10.0'  # 使用适合的 Flutter 版本
+
+      # 检查 Flutter 环境
+      - name: Doctor check
+        run: flutter doctor
 
       - name: Install dependencies
         run: flutter pub get
