@@ -3,7 +3,7 @@ name: Build APK
 on:
   push:
     branches:
-      - master  # 或其他希望触发构建的分支
+      - master
   pull_request:
     branches:
       - master
@@ -16,37 +16,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 设置 Java 8 环境
-      - name: Set up Java 8
-        uses: actions/setup-java@v2
-        with:
-          java-version: '8'
-          distribution: 'zulu'
+      - name: Check available Java versions
+        run: |
+          sudo update-alternatives --list java || echo "No Java found"
 
-      # 动态获取 Java 8 的路径
-      - name: Find Java 8 Path
+      - name: Install Java 8
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-8-jdk
+
+      - name: Set JAVA_HOME to Java 8
         run: |
           JAVA_PATH=$(update-alternatives --list java | grep java-8 | head -n 1)
           if [ -z "$JAVA_PATH" ]; then
-            echo "Java 8 not found!" && exit 1
+            echo "Java 8 not found!"
+            exit 1
           fi
           echo "JAVA_HOME=$(dirname $(dirname $JAVA_PATH))" >> $GITHUB_ENV
           echo "PATH=$JAVA_HOME/bin:$PATH" >> $GITHUB_ENV
 
-      # 使用较旧的 Flutter 版本以支持 Android V1 嵌入
+      - name: Verify Java installation
+        run: |
+          java -version
+          echo "JAVA_HOME=$JAVA_HOME"
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.10.0'  # 使用适合的 Flutter 版本
-
-      # 检查 Flutter 环境
-      - name: Doctor check
-        run: flutter doctor
+          flutter-version: '2.10.0'
 
       - name: Install dependencies
         run: flutter pub get
 
-      # 强制使用 V1 嵌入并跳过过时警告
       - name: Build APK
         run: flutter build apk --release --no-sound-null-safety --ignore-deprecation
 
