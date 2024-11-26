@@ -33,14 +33,14 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.10.0'  # 使用适合的Flutter版本
+          flutter-version: '2.10.0'  # 使用适合的 Flutter 版本
 
       - name: Install dependencies
         run: flutter pub get
 
-      # 使用 Java 8 进行构建
+      # 强制使用 V1 嵌入并跳过过时警告
       - name: Build APK
-        run: flutter build apk --release --no-sound-null-safety
+        run: flutter build apk --release --no-sound-null-safety --ignore-deprecation
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
