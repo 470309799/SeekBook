@@ -16,10 +16,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Check available Java versions
-        run: |
-          sudo update-alternatives --list java || echo "No Java found"
-
       - name: Install Java 8
         run: |
           sudo apt-get update
@@ -34,11 +30,13 @@ jobs:
           fi
           echo "JAVA_HOME=$(dirname $(dirname $JAVA_PATH))" >> $GITHUB_ENV
           echo "PATH=$JAVA_HOME/bin:$PATH" >> $GITHUB_ENV
+          export JAVA_HOME=$(dirname $(dirname $JAVA_PATH))
+          export PATH=$JAVA_HOME/bin:$PATH
 
       - name: Verify Java installation
         run: |
-          java -version
           echo "JAVA_HOME=$JAVA_HOME"
+          java -version
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -49,7 +47,10 @@ jobs:
         run: flutter pub get
 
       - name: Build APK
-        run: flutter build apk --release --no-sound-null-safety --ignore-deprecation
+        run: |
+          export JAVA_HOME=$JAVA_HOME
+          export PATH=$JAVA_HOME/bin:$PATH
+          flutter build apk --release --no-sound-null-safety --ignore-deprecation
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
