@@ -19,7 +19,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '1.22.6'  # 设置Flutter 旧版本
+          flutter-version: '1.22.6'
 
       - name: Install Java 8
         run: |
@@ -27,8 +27,12 @@ jobs:
           sudo apt-get install -y openjdk-8-jdk
           sudo update-alternatives --config java
           export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-          echo "JAVA_HOME=$JAVA_HOME"
-          echo "$JAVA_HOME/bin" >> $GITHUB_PATH
+          export PATH=$JAVA_HOME/bin:$PATH
+          java -version  # Verifying Java version
+
+      - name: Clear Gradle cache (Optional)
+        run: |
+          rm -rf ~/.gradle/caches/
 
       - name: Install dependencies
         run: flutter pub get
